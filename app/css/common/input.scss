@@ -1,0 +1,12 @@
+@import 'colors.scss';
+
+@mixin input {
+  padding: 0.75rem 1rem;
+  border: 2px solid $colorLoblolly;
+  border-radius: 4px;
+  width: 100%;
+
+  background-color: $colorWhite;
+  color: $colorLimedSpruce;
+  margin-bottom: 0.75rem;
+}

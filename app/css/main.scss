@@ -1,0 +1,11 @@
+@import 'common/typography.scss';
+@import 'common/colors.scss';
+@import url(https://fonts.googleapis.com/css?family=Montserrat:400,700);
+
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  font-family: $fontMontserrat;
+}
