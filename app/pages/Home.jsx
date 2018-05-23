@@ -2,8 +2,8 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 // import { sendTransactionAction, mineBlockAction } from '../actions/blocks';
-// import { fetchAddressAction } from '../actions/wallet';
-import { Button, Container, Header, Icon, Segment } from 'semantic-ui-react';
+import { fetchAddressAction } from '../actions/wallet';
+import { Container, Header, Segment, Icon } from 'semantic-ui-react';
 import LayoutPage from '../components/layouts/LayoutPage/LayoutPage';
 import classNames from 'classnames/bind';
 import styles from './css/home.scss';
@@ -16,7 +16,7 @@ class Home extends Component {
 	}
 
 	componentDidMount() {
-		// this.props.fetchAddressAction();
+		this.props.fetchAddressAction();
 		// this.props.fetchBalanceAction();
 		// this.props.fetchTransactionPoolAction();
 	}
@@ -34,21 +34,14 @@ class Home extends Component {
 	}
 
   render() {
-		// const {  } = this.props;
+		const { address } = this.props;
 
     return (
       <LayoutPage {...this.getMetaData()}>
-				<Segment inverted textAlign="center" style={{ minHeight: 400, padding: '1em 0em' }} vertical>
-					<Container text>
-						<Header as="h1" content="Hello, world!" inverted className={cx('myClass')} style={{ fontSize: '4em', fontWeight: 'normal', marginBottom: 0, marginTop: '1em' }} />
-						<Header as="h2" content="Do whatever you want when you want to." inverted style={{ fontSize: '1.7em', fontWeight: 'normal' }} />
-						<Button primary size="huge">Get Started<Icon name="right arrow" /></Button>
-					</Container>
-				</Segment>
-
 				<Segment textAlign="center" vertical>
 					<Container text>
-						Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aspernatur consequatur dolor earum facilis illum iste repellat, sequi tempora. Accusamus ad aut dolores et expedita nam officia provident quia, quis quisquam.
+						<Header as="h2"><Icon name="plug" /><Header.Content>MY ADDRESS</Header.Content></Header>
+						<div style={{fontSize: '11px'}} >{ address }</div>
 					</Container>
 				</Segment>
 
@@ -64,7 +57,7 @@ class Home extends Component {
 }
 
 Home.propTypes = {
-	balance: PropTypes.number
+	address: PropTypes.string
 
 	// sendTransactionAction: PropTypes.func.isRequired,
 	// mineBlockAction: PropTypes.func.isRequired,
@@ -75,8 +68,8 @@ Home.propTypes = {
 
 const mapStateToProps = (state) => {
 	return {
-		// balance: state.wallet.balance
+		address: state.wallet.address
 	};
 };
 
-export default connect(mapStateToProps, null)(Home);
+export default connect(mapStateToProps, { fetchAddressAction })(Home);

@@ -3,6 +3,7 @@ import { controllers, passport as passportConfig } from '../db';
 
 const usersController = controllers && controllers.users;
 const blocksController = controllers && controllers.blocks;
+const walletController = controllers && controllers.wallet;
 
 // WALLET GET address
 // WALLET GET balance
@@ -20,6 +21,13 @@ export default (app) => {
 		app.get('/api/getblocks', blocksController.all);
 	} else {
 		console.warn('blocks routes');
+	}
+
+	// wallet routes
+	if (walletController) {
+		app.get('/api/getaddress', walletController.address);
+	} else {
+		console.warn('wallet routes');
 	}
 
   // user routes

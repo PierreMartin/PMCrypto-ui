@@ -1,20 +1,21 @@
 import * as types from './../types';
 import { fetchAddressRequest } from './../api';
 
+const getMessage = res => res.response && res.response.data && res.response.data.message;
+
 /***************************************** Fetch address *****************************************/
 export function fetchAddressSuccess(res) {
 	return {
 		type: types.GET_ADDRESS_SUCCESS,
-		message: res.message,
+		messageServer: res.messageServer,
 		address: res.address
 	};
 }
 
-export function fetchAddressFailure(data) {
+export function fetchAddressFailure(messageServer) {
 	return {
 		type: types.GET_ADDRESS_FAILURE,
-		id: data.id,
-		error: data.error
+		messageServer
 	};
 }
 
@@ -25,7 +26,7 @@ export function fetchAddressAction() {
 				if (res.status === 200) return dispatch(fetchAddressSuccess(res.data));
 			})
 			.catch((err) => {
-				if (err.message) return dispatch(fetchAddressFailure({error: 'Something went wrong'}));
+				if (err.message) return dispatch(fetchAddressFailure(getMessage(err)));
 			});
 	};
 }

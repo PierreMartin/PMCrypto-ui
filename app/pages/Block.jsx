@@ -63,7 +63,7 @@ Block.propTypes = {
 	block: PropTypes.shape({
 		hash: PropTypes.string,
 		index: PropTypes.string
-	}).isRequired
+	})
 };
 
 const mapStateToProps = (state) => {

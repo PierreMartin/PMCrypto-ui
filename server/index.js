@@ -6,8 +6,12 @@ import { connect } from './db';
 import initExpress from './init/express';
 import initRoutes from './init/routes';
 import renderMiddleware from './render/middleware';
+import { initP2PServer } from './logic/p2p';
+import { initWallet } from './logic/wallet';
 
+const p2pPort = parseInt(process.env.P2P_PORT, 10) || 6001;
 const app = express();
+
 
 // connect to MongoDB using mongoose - register mongoose Schema
 connect();
@@ -28,6 +32,12 @@ if (isDebug) {
 
 // Bootstrap application settings
 initExpress(app);
+
+// init peer to peer blockchain
+initP2PServer(p2pPort);
+
+// ini wallet (create private key)
+initWallet();
 
 // Note: Some of these routes have passport and database model dependencies
 initRoutes(app);

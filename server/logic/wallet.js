@@ -4,7 +4,7 @@ import _ from 'lodash';
 import { getPublicKey, getTransactionId, signTxIn, Transaction, TxIn, TxOut } from './transaction';
 
 const EC = new ec('secp256k1');
-const privateKeyLocation = process.env.PRIVATE_KEY || 'node/wallet/private_key';
+const privateKeyLocation = process.env.PRIVATE_KEY || 'public/node/wallet/private_key';
 
 /**
  * Get a Private key

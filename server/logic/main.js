@@ -1,3 +1,5 @@
+// TODO supprimer ce fichier apres refacto
+
 import * as  bodyParser from 'body-parser';
 import express from 'express';
 import _ from 'lodash';
@@ -78,10 +80,12 @@ const initHttpServer = (myHttpPort) => {
 		res.send({'balance': balance});
 	});
 
-	app.get('/address', (req, res) => {
+	/*
+	app.get('/api/getaddress', (req, res) => {
 		const address = getPublicFromWallet();
 		res.send({'address': address});
 	});
+	*/
 
 	// Using the wallet:
 	app.post('/mineTransaction', (req, res) => {
@@ -135,6 +139,8 @@ const initHttpServer = (myHttpPort) => {
 	});
 };
 
+/*
 initHttpServer(httpPort);
 initP2PServer(p2pPort);
 initWallet();
+*/
