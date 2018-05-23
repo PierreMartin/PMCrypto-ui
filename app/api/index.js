@@ -26,8 +26,8 @@ export const fetchBlockRequest = (params, store) => {
 		});
 };
 
-export const createBlockRequest = (data) => {
-	return api().createBlock(data)
+export const sendTransactionRequest = (data) => {
+	return api().sendTransaction(data)
 		.then((res) => {
 			if (res.status === 200) return Promise.resolve(res);
 		})
@@ -36,17 +36,16 @@ export const createBlockRequest = (data) => {
 		});
 };
 
-/********************************************** Third API ***********************************************/
-export const getFilmsRequest = (/*params, store*/) => {
-	return api().getFilms()
+/********************************************** Address ***********************************************/
+export const fetchAddressRequest = () => {
+	return api().getAddress()
 		.then((res) => {
-			if (res.status === 200) {
-				console.log(res.data);
-				// store.dispatch({/* ... */});
-			}
+			if (res.status === 200) return Promise.resolve(res);
 		})
 		.catch((err) => {
-			console.error(err);
-			// store.dispatch({/* ... */});
+			return Promise.reject(err);
 		});
 };
+
+/********************************************** Balance ***********************************************/
+// ...

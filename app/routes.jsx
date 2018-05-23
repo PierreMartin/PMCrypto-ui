@@ -1,11 +1,9 @@
 import React from 'react';
 import { Route, IndexRoute } from 'react-router';
-import { fetchBlocksRequest } from './api';
 import App from './pages/App';
 import Home from './pages/Home';
-// import Blocks from './pages/Blocks';
-// import Block from './pages/Block';
-// import Wallet from './pages/Wallet';
+import Blocks from './pages/Blocks';
+import Block from './pages/Block';
 import About from './pages/About';
 
 
@@ -35,8 +33,10 @@ export default (/*store*/) => {
 
   return (
     <Route path="/" component={App}>
-      <IndexRoute component={Home} fetchData={fetchBlocksRequest} />
-      <Route path="about" component={About} />
+      <IndexRoute component={Home} />
+			<Route path="/blocks" component={Blocks} />
+      <Route path="/block/:id" component={Block} />
+      <Route path="/about" component={About} />
     </Route>
   );
 };

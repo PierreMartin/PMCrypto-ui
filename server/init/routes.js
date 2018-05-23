@@ -15,7 +15,7 @@ const blocksController = controllers && controllers.blocks;
 // BLCKCHN GET transaction
 
 export default (app) => {
-	// crypto routes
+	// blocks routes
 	if (blocksController) {
 		app.get('/api/getblocks', blocksController.all);
 	} else {

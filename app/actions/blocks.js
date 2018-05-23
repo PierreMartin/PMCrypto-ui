@@ -1,41 +1,39 @@
 import * as types from './../types';
-import { createBlockRequest } from './../api';
+import { sendTransactionRequest } from './../api';
+
+/***************************************** Fetch blocks *****************************************/
 
 
-/************************ Create block ***********************/
-export function typingCreateBlockAction(text) {
+/***************************************** Fetch block *****************************************/
+
+
+/************************************** Send transaction *************************************/
+export function sendTransactionSuccess(res) {
 	return {
-		type: types.TYPING_CREATE_COURSE_ACTION,
-		typingCurrentValue: text
-	};
-}
-
-export function createBlockSuccess(res) {
-	return {
-		type: types.CREATE_COURSE_SUCCESS,
+		type: types.SEND_TRANSACTION_SUCCESS,
 		message: res.message,
 		data: res.course
 	};
 }
 
-export function createBlockFailure(data) {
+export function sendTransactionFailure(data) {
 	return {
-		type: types.CREATE_COURSE_FAILURE,
+		type: types.SEND_TRANSACTION_FAILURE,
 		id: data.id,
 		error: data.error
 	};
 }
 
-export function createBlockAction(data) {
-	return (dispatch/*, getState*/) => {
+export function sendTransactionAction(data) {
+	return (dispatch) => {
 		if (!data) return;
 
-		createBlockRequest(data)
+		sendTransactionRequest(data)
 			.then((res) => {
-				if (res.status === 200) return dispatch(createBlockSuccess(res.data));
+				if (res.status === 200) return dispatch(sendTransactionSuccess(res.data));
 			})
 			.catch((err) => {
-				if (err.message) return dispatch(createBlockFailure({error: 'Something went wrong'}));
+				if (err.message) return dispatch(sendTransactionFailure({error: 'Something went wrong'}));
 			});
 	};
 }
