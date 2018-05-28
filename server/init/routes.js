@@ -26,6 +26,7 @@ export default (app) => {
 	// wallet routes
 	if (walletController) {
 		app.get('/api/getaddress', walletController.address);
+		app.get('/api/getbalance', walletController.balance);
 	} else {
 		console.warn('wallet routes');
 	}

@@ -75,10 +75,12 @@ const initHttpServer = (myHttpPort) => {
 		}
 	});
 
+	/*
 	app.get('/balance', (req, res) => {
 		const balance = getAccountBalance();
 		res.send({'balance': balance});
 	});
+	*/
 
 	/*
 	app.get('/api/getaddress', (req, res) => {

@@ -24,6 +24,12 @@ export function api() {
 		getAddress: () => localClient.request({
 			method: 'GET',
 			url: '/api/getaddress/'
+		}),
+
+		// balance:
+		getBalance: () => localClient.request({
+			method: 'GET',
+			url: '/api/getbalance/'
 		})
 	};
 }

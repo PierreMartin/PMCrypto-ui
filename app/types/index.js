@@ -15,3 +15,7 @@ export const GET_BLOCK_FAILURE = 'GET_BLOCK_FAILURE';
 // get one address
 export const GET_ADDRESS_SUCCESS = 'GET_ADDRESS_SUCCESS';
 export const GET_ADDRESS_FAILURE = 'GET_ADDRESS_FAILURE';
+
+// get one balance
+export const GET_BALANCE_SUCCESS = 'GET_BALANCE_SUCCESS';
+export const GET_BALANCE_FAILURE = 'GET_BALANCE_FAILURE';

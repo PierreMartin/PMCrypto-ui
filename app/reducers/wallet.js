@@ -13,8 +13,21 @@ const address = (state = '', action) => {
 	}
 };
 
+const balance = (state = 0, action) => {
+	switch (action.type) {
+		case types.GET_BALANCE_SUCCESS:
+			if (action.balance) return action.balance;
+			return state;
+		case types.GET_BALANCE_FAILURE:
+			return state;
+		default:
+			return state;
+	}
+};
+
 const courseReducer = combineReducers({
-	address
+	address,
+	balance
 });
 
 export default courseReducer;

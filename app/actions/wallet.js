@@ -1,5 +1,5 @@
 import * as types from './../types';
-import { fetchAddressRequest } from './../api';
+import { fetchAddressRequest, fetchBalanceRequest } from './../api';
 
 const getMessage = res => res.response && res.response.data && res.response.data.message;
 
@@ -32,4 +32,29 @@ export function fetchAddressAction() {
 }
 
 /***************************************** Fetch balance *****************************************/
-// ...
+export function fetchBalanceSuccess(res) {
+	return {
+		type: types.GET_BALANCE_SUCCESS,
+		messageServer: res.messageServer,
+		balance: res.balance
+	};
+}
+
+export function fetchBalanceFailure(messageServer) {
+	return {
+		type: types.GET_BALANCE_FAILURE,
+		messageServer
+	};
+}
+
+export function fetchBalanceAction() {
+	return (dispatch) => {
+		fetchBalanceRequest()
+			.then((res) => {
+				if (res.status === 200) return dispatch(fetchBalanceSuccess(res.data));
+			})
+			.catch((err) => {
+				if (err.message) return dispatch(fetchBalanceFailure(getMessage(err)));
+			});
+	};
+}

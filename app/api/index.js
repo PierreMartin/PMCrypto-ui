@@ -48,4 +48,12 @@ export const fetchAddressRequest = () => {
 };
 
 /********************************************** Balance ***********************************************/
-// ...
+export const fetchBalanceRequest = () => {
+	return api().getBalance()
+		.then((res) => {
+			if (res.status === 200) return Promise.resolve(res);
+		})
+		.catch((err) => {
+			return Promise.reject(err);
+		});
+};
