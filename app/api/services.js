@@ -30,6 +30,12 @@ export function api() {
 		getBalance: () => localClient.request({
 			method: 'GET',
 			url: '/api/getbalance/'
+		}),
+
+		// Transaction Pool:
+		getTransactionPool: () => localClient.request({
+			method: 'GET',
+			url: '/api/gettransactionpool/'
 		})
 	};
 }

@@ -1,5 +1,5 @@
 import * as types from './../types';
-import { fetchAddressRequest, fetchBalanceRequest } from './../api';
+import { fetchAddressRequest, fetchBalanceRequest, fetchTransactionPoolRequest } from './../api';
 
 const getMessage = res => res.response && res.response.data && res.response.data.message;
 
@@ -55,6 +55,34 @@ export function fetchBalanceAction() {
 			})
 			.catch((err) => {
 				if (err.message) return dispatch(fetchBalanceFailure(getMessage(err)));
+			});
+	};
+}
+
+/***************************************** Fetch TransactionPool *****************************************/
+export function fetchTransactionPoolSuccess(res) {
+	return {
+		type: types.GET_TRANSACTION_POOL_SUCCESS,
+		messageServer: res.messageServer,
+		transactionPool: res.transactionPool
+	};
+}
+
+export function fetchTransactionPoolFailure(messageServer) {
+	return {
+		type: types.GET_TRANSACTION_POOL_FAILURE,
+		messageServer
+	};
+}
+
+export function fetchTransactionPoolAction() {
+	return (dispatch) => {
+		fetchTransactionPoolRequest()
+			.then((res) => {
+				if (res.status === 200) return dispatch(fetchTransactionPoolSuccess(res.data));
+			})
+			.catch((err) => {
+				if (err.message) return dispatch(fetchTransactionPoolFailure(getMessage(err)));
 			});
 	};
 }

@@ -119,9 +119,11 @@ const initHttpServer = (myHttpPort) => {
 		}
 	});
 
+	/*
 	app.get('/transactionPool', (req, res) => {
 		res.send(getTransactionPool());
 	});
+	*/
 
 	app.get('/peers', (req, res) => {
 		res.send(getSockets().map((s) => `${s._socket.remoteAddress}: ${s._socket.remotePort}`));

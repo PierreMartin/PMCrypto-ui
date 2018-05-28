@@ -2,8 +2,8 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 // import { sendTransactionAction, mineBlockAction } from '../actions/blocks';
-import { fetchAddressAction, fetchBalanceAction } from '../actions/wallet';
-import { Container, Header, Segment, Icon } from 'semantic-ui-react';
+import { fetchAddressAction, fetchBalanceAction, fetchTransactionPoolAction } from '../actions/wallet';
+import { Container, Header, Segment, Icon, Form } from 'semantic-ui-react';
 import LayoutPage from '../components/layouts/LayoutPage/LayoutPage';
 import classNames from 'classnames/bind';
 import styles from './css/home.scss';
@@ -13,12 +13,18 @@ const cx = classNames.bind(styles);
 class Home extends Component {
 	constructor(props) {
 		super(props);
+		this.sendTransactionChange = this.sendTransactionChange.bind(this);
+		this.sendTransactionSubmit = this.sendTransactionSubmit.bind(this);
+
+		this.state = {
+			fields: {}
+		};
 	}
 
 	componentDidMount() {
 		this.props.fetchAddressAction();
 		this.props.fetchBalanceAction();
-		// this.props.fetchTransactionPoolAction();
+		this.props.fetchTransactionPoolAction();
 	}
 
 	componentDidUpdate() {
@@ -33,23 +39,92 @@ class Home extends Component {
 		};
 	}
 
+	sendTransactionChange(event, field) {
+		this.setState({fields: {...this.state.fields, ...{ [field.name]: field.value }} });
+	}
+
+	sendTransactionSubmit(event) {
+		event.preventDefault();
+		const address = this.state.fields.address;
+		const amount = parseInt(this.state.fields.amount, 10);
+		// this.props.sendTransactionAction(address, amount);
+	}
+
   render() {
-		const { address, balance } = this.props;
+		const { address, balance, transactionPool } = this.props;
 
     return (
       <LayoutPage {...this.getMetaData()}>
 				<Segment textAlign="center" vertical>
 					<Container text>
-						<Header as="h2"><Icon name="plug" /><Header.Content>MY ADDRESS</Header.Content></Header>
-						<div style={{fontSize: '11px'}} >
+						<Header as="h4"><Icon name="privacy" /><Header.Content>MY ADDRESS</Header.Content></Header>
+						<div style={{wordWrap: 'break-word'}} >
 							{ address }
 						</div>
 					</Container>
 				</Segment>
 
 				<Segment vertical>
+					<Container text textAlign="center">
+						<Header as="h4"><Icon name="balance" /><Header.Content>MY BALANCE</Header.Content></Header>
+						{ balance }
+					</Container>
+				</Segment>
+
+				<Segment vertical>
 					<Container text>
-						Balance: { balance }
+						<Header as="h4"><Icon name="send" /><Header.Content>SEND COIN</Header.Content></Header>
+
+						<Form size="small" onSubmit={this.sendTransactionSubmit}>
+							<Form.Group widths="equal">
+								<Form.Input label="Address" placeholder="Address" name="address" value={this.state.fields.address || ''} onChange={this.sendTransactionChange} />
+								<Form.Input type="number" label="Amount" placeholder="Amount" name="amount" value={this.state.fields.amount || ''} onChange={this.sendTransactionChange} />
+							</Form.Group>
+
+							<Form.Button>Submit</Form.Button>
+						</Form>
+
+					</Container>
+				</Segment>
+
+				<Segment vertical>
+					<Container text>
+						<Header as="h4"><Icon name="external" /><Header.Content>TRANSACTION POOL</Header.Content></Header>
+						<table className="table">
+							<tbody>
+							{transactionPool.map((tx, key) => {
+								return (
+									<tr key={key}>
+										<tr>
+											<td><b>ID: {tx.id}</b></td>
+										</tr>
+
+										{tx.txIns.map((txIn, key2) => {
+											return (
+												<tr key={key2}>
+													<td>{txIn.signature}</td>
+												</tr>
+											);
+										})}
+
+										{tx.txOuts.map((txOut, key3) => {
+											return (
+												<tr key={key3}>
+													<td>{txOut.address}</td>
+												</tr>
+											);
+										})}
+									</tr>
+								);
+							})}
+							</tbody>
+						</table>
+					</Container>
+				</Segment>
+
+				<Segment vertical>
+					<Container text>
+						<Header as="h4"><Icon name="retweet" /><Header.Content>MINE BLOCK (test)</Header.Content></Header>
 					</Container>
 				</Segment>
 
@@ -62,9 +137,15 @@ Home.propTypes = {
 	address: PropTypes.string,
 	balance: PropTypes.number,
 
+	transactionPool: PropTypes.arrayOf(PropTypes.shape({
+		id: PropTypes.string,
+		txIns: PropTypes.array,
+		txOuts: PropTypes.array
+	})),
+
 	// sendTransactionAction: PropTypes.func.isRequired,
 	// mineBlockAction: PropTypes.func.isRequired,
-	// fetchTransactionPoolAction: PropTypes.func.isRequired
+	fetchTransactionPoolAction: PropTypes.func.isRequired,
 	fetchBalanceAction: PropTypes.func.isRequired,
 	fetchAddressAction: PropTypes.func.isRequired
 };
@@ -72,8 +153,9 @@ Home.propTypes = {
 const mapStateToProps = (state) => {
 	return {
 		address: state.wallet.address,
-		balance: state.wallet.balance
+		balance: state.wallet.balance,
+		transactionPool: state.wallet.transactionPool
 	};
 };
 
-export default connect(mapStateToProps, { fetchAddressAction, fetchBalanceAction })(Home);
+export default connect(mapStateToProps, { fetchAddressAction, fetchBalanceAction, fetchTransactionPoolAction })(Home);

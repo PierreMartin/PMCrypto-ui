@@ -25,9 +25,22 @@ const balance = (state = 0, action) => {
 	}
 };
 
+const transactionPool = (state = [], action) => {
+	switch (action.type) {
+		case types.GET_TRANSACTION_POOL_SUCCESS:
+			if (action.transactionPool) return action.transactionPool;
+			return state;
+		case types.GET_TRANSACTION_POOL_FAILURE:
+			return state;
+		default:
+			return state;
+	}
+};
+
 const courseReducer = combineReducers({
 	address,
-	balance
+	balance,
+	transactionPool
 });
 
 export default courseReducer;

@@ -57,3 +57,14 @@ export const fetchBalanceRequest = () => {
 			return Promise.reject(err);
 		});
 };
+
+/********************************************** Transaction Pool ***********************************************/
+export const fetchTransactionPoolRequest = () => {
+	return api().getTransactionPool()
+		.then((res) => {
+			if (res.status === 200) return Promise.resolve(res);
+		})
+		.catch((err) => {
+			return Promise.reject(err);
+		});
+};
