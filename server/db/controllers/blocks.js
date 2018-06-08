@@ -1,3 +1,4 @@
+import { sendTransaction } from '../../logic/blockchain';
 import Block from '../models/block';
 
 /**
@@ -15,24 +16,21 @@ export function all(req, res) {
 }
 
 /**
- * Add a block
+ * POST api/sendTransaction
+ * Creates a transaction to our local transaction pool based on the existing wallet
  */
-export function add(req, res) {
-	const description = (req.body.description) ? req.body.description : 'no description';
-	const price = (req.body.price) ? req.body.price : 10;
-	const query = { ...req.body, id: req.params.id, description, price };
+export function sendTx(req, res) {
+	try {
+		const { address, amount } = req.body;
+		if (address === undefined || amount === undefined) throw Error('invalid address or amount');
 
-	Block.create(query, (err) => {
-    if (err) {
-      console.log(err);
-      return res.status(400).send(err);
-    }
-
-    return res.status(200).json({message: 'You have added a block', block: query});
-  });
+		res.status(200).json({ transactionSended: sendTransaction(address, amount), messageServer: 'Transaction successful' });
+	} catch (e) {
+		res.status(500).json({ transactionSended: e.message, messageServer: 'Transaction failed' });
+	}
 }
 
 export default {
   all,
-  add
+	sendTx
 };

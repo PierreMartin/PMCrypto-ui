@@ -103,6 +103,7 @@ const initHttpServer = (myHttpPort) => {
 	});
 
 	// Creates a transaction to our local transaction pool based on the existing wallet
+	/*
 	app.post('/sendTransaction', (req, res) => {
 		try {
 			const address = req.body.address;
@@ -118,6 +119,7 @@ const initHttpServer = (myHttpPort) => {
 			res.status(400).send(e.message);
 		}
 	});
+	*/
 
 	/*
 	app.get('/transactionPool', (req, res) => {

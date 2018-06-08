@@ -19,6 +19,7 @@ export default (app) => {
 	// blocks routes
 	if (blocksController) {
 		app.get('/api/getblocks', blocksController.all);
+		app.post('/api/sendTransaction', blocksController.sendTx);
 	} else {
 		console.warn('blocks routes');
 	}

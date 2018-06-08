@@ -14,10 +14,10 @@ export function api() {
 			method: 'GET',
 			url: '/api/getblock/' + id
 		}),
-		sendTransaction: data => localClient.request({
+		sendTransaction: (address, amount) => localClient.request({
 			method: 'POST',
-			url: '/api/sendTransaction/' + data.id,
-			data
+			url: '/api/sendTransaction/',
+			data: { address, amount }
 		}),
 
 		// address:

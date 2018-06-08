@@ -1,7 +1,7 @@
 import * as types from './../types';
 import { fetchAddressRequest, fetchBalanceRequest, fetchTransactionPoolRequest } from './../api';
 
-const getMessage = res => res.response && res.response.data && res.response.data.message;
+const getMessage = res => res.response && res.response.data && res.response.data.messageServer;
 
 /***************************************** Fetch address *****************************************/
 export function fetchAddressSuccess(res) {

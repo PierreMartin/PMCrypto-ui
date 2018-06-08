@@ -26,8 +26,9 @@ export const fetchBlockRequest = (params, store) => {
 		});
 };
 
-export const sendTransactionRequest = (data) => {
-	return api().sendTransaction(data)
+/********************************************** Send Transaction ***********************************************/
+export const sendTransactionRequest = (address, amount) => {
+	return api().sendTransaction(address, amount)
 		.then((res) => {
 			if (res.status === 200) return Promise.resolve(res);
 		})

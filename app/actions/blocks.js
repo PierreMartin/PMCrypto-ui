@@ -1,6 +1,8 @@
 import * as types from './../types';
 import { sendTransactionRequest } from './../api';
 
+const getMessage = res => res.response && res.response.data && res.response.data.messageServer;
+
 /***************************************** Fetch blocks *****************************************/
 
 
@@ -9,31 +11,31 @@ import { sendTransactionRequest } from './../api';
 
 /************************************** Send transaction *************************************/
 export function sendTransactionSuccess(res) {
+	debugger;
 	return {
 		type: types.SEND_TRANSACTION_SUCCESS,
-		message: res.message,
-		data: res.course
+		messageServer: res.messageServer,
+		transactionSended: res.transactionSended
 	};
 }
 
-export function sendTransactionFailure(data) {
+export function sendTransactionFailure(messageServer) {
 	return {
 		type: types.SEND_TRANSACTION_FAILURE,
-		id: data.id,
-		error: data.error
+		messageServer
 	};
 }
 
-export function sendTransactionAction(data) {
+export function sendTransactionAction(address, amount) {
 	return (dispatch) => {
-		if (!data) return;
+		if (!address || !amount) return;
 
-		sendTransactionRequest(data)
+		sendTransactionRequest(address, amount)
 			.then((res) => {
 				if (res.status === 200) return dispatch(sendTransactionSuccess(res.data));
 			})
 			.catch((err) => {
-				if (err.message) return dispatch(sendTransactionFailure({error: 'Something went wrong'}));
+				if (err.message) return dispatch(sendTransactionFailure(getMessage(err)));
 			});
 	};
 }

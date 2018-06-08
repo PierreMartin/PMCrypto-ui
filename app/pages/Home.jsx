@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-// import { sendTransactionAction, mineBlockAction } from '../actions/blocks';
+import { sendTransactionAction } from '../actions/blocks';
 import { fetchAddressAction, fetchBalanceAction, fetchTransactionPoolAction } from '../actions/wallet';
 import { Container, Header, Segment, Icon, Form } from 'semantic-ui-react';
 import LayoutPage from '../components/layouts/LayoutPage/LayoutPage';
@@ -47,7 +47,7 @@ class Home extends Component {
 		event.preventDefault();
 		const address = this.state.fields.address;
 		const amount = parseInt(this.state.fields.amount, 10);
-		// this.props.sendTransactionAction(address, amount);
+		this.props.sendTransactionAction(address, amount);
 	}
 
   render() {
@@ -143,7 +143,7 @@ Home.propTypes = {
 		txOuts: PropTypes.array
 	})),
 
-	// sendTransactionAction: PropTypes.func.isRequired,
+	sendTransactionAction: PropTypes.func.isRequired,
 	// mineBlockAction: PropTypes.func.isRequired,
 	fetchTransactionPoolAction: PropTypes.func.isRequired,
 	fetchBalanceAction: PropTypes.func.isRequired,
@@ -158,4 +158,4 @@ const mapStateToProps = (state) => {
 	};
 };
 
-export default connect(mapStateToProps, { fetchAddressAction, fetchBalanceAction, fetchTransactionPoolAction })(Home);
+export default connect(mapStateToProps, { fetchAddressAction, fetchBalanceAction, fetchTransactionPoolAction, sendTransactionAction })(Home);
