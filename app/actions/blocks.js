@@ -11,7 +11,6 @@ const getMessage = res => res.response && res.response.data && res.response.data
 
 /************************************** Send transaction *************************************/
 export function sendTransactionSuccess(res) {
-	debugger;
 	return {
 		type: types.SEND_TRANSACTION_SUCCESS,
 		messageServer: res.messageServer,
