@@ -19,6 +19,10 @@ export function api() {
 			url: '/api/sendTransaction/',
 			data: { address, amount }
 		}),
+		mineBlock: () => localClient.request({
+			method: 'POST',
+			url: '/api/mineBlock/'
+		}),
 
 		// address:
 		getAddress: () => localClient.request({

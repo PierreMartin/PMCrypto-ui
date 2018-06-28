@@ -26,6 +26,13 @@ export const fetchBlockRequest = (params, store) => {
 		});
 };
 
+/********************************************** Mine Block ***********************************************/
+export const mineBlockRequest = () => {
+	return api().mineBlock()
+		.then((res) => { if (res.status === 200) return Promise.resolve(res); })
+		.catch(err => Promise.reject(err));
+};
+
 /********************************************** Send Transaction ***********************************************/
 export const sendTransactionRequest = (address, amount) => {
 	return api().sendTransaction(address, amount)

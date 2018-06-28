@@ -20,6 +20,9 @@ const balance = (state = 0, action) => {
 			return state;
 		case types.GET_BALANCE_FAILURE:
 			return state;
+		case types.MINE_BLOCK_SUCCESS:
+			if (action.amount) return state + action.amount;
+			return state;
 		default:
 			return state;
 	}

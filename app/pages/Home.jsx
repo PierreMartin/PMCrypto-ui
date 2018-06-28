@@ -1,20 +1,20 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { sendTransactionAction } from '../actions/blocks';
-import { fetchAddressAction, fetchBalanceAction, fetchTransactionPoolAction } from '../actions/wallet';
-import { Container, Header, Segment, Icon, Form } from 'semantic-ui-react';
+import { fetchAddressAction, fetchBalanceAction, fetchTransactionPoolAction, sendTransactionAction, mineBlockAction } from '../actions/wallet';
+import { Button, Container, Header, Segment, Icon, Form } from 'semantic-ui-react';
 import LayoutPage from '../components/layouts/LayoutPage/LayoutPage';
-import classNames from 'classnames/bind';
-import styles from './css/home.scss';
+// import classNames from 'classnames/bind';
+// import styles from './css/home.scss';
 
-const cx = classNames.bind(styles);
+// const cx = classNames.bind(styles);
 
 class Home extends Component {
 	constructor(props) {
 		super(props);
 		this.sendTransactionChange = this.sendTransactionChange.bind(this);
 		this.sendTransactionSubmit = this.sendTransactionSubmit.bind(this);
+		this.mineBlockClick = this.mineBlockClick.bind(this);
 
 		this.state = {
 			fields: {}
@@ -48,6 +48,10 @@ class Home extends Component {
 		const address = this.state.fields.address;
 		const amount = parseInt(this.state.fields.amount, 10);
 		this.props.sendTransactionAction(address, amount);
+	}
+
+	mineBlockClick() {
+		this.props.mineBlockAction();
 	}
 
   render() {
@@ -90,14 +94,20 @@ class Home extends Component {
 				<Segment vertical>
 					<Container text>
 						<Header as="h4"><Icon name="external" /><Header.Content>TRANSACTION POOL</Header.Content></Header>
+
 						<table className="table">
+							<thead>
+								<tr>
+									<th colSpan="2">#ID</th>
+								</tr>
+							</thead>
 							<tbody>
 							{transactionPool.map((tx, key) => {
 								return (
 									<tr key={key}>
-										<tr>
-											<td><b>ID: {tx.id}</b></td>
-										</tr>
+										<td>
+											<b>ID: {tx.id}</b>
+										</td>
 
 										{tx.txIns.map((txIn, key2) => {
 											return (
@@ -119,12 +129,14 @@ class Home extends Component {
 							})}
 							</tbody>
 						</table>
+
 					</Container>
 				</Segment>
 
 				<Segment vertical>
 					<Container text>
 						<Header as="h4"><Icon name="retweet" /><Header.Content>MINE BLOCK (test)</Header.Content></Header>
+						<Button primary onClick={this.mineBlockClick}>Click to mine block<Icon name="right arrow" /></Button>
 					</Container>
 				</Segment>
 
@@ -144,7 +156,7 @@ Home.propTypes = {
 	})),
 
 	sendTransactionAction: PropTypes.func.isRequired,
-	// mineBlockAction: PropTypes.func.isRequired,
+	mineBlockAction: PropTypes.func.isRequired,
 	fetchTransactionPoolAction: PropTypes.func.isRequired,
 	fetchBalanceAction: PropTypes.func.isRequired,
 	fetchAddressAction: PropTypes.func.isRequired
@@ -158,4 +170,4 @@ const mapStateToProps = (state) => {
 	};
 };
 
-export default connect(mapStateToProps, { fetchAddressAction, fetchBalanceAction, fetchTransactionPoolAction, sendTransactionAction })(Home);
+export default connect(mapStateToProps, { fetchAddressAction, fetchBalanceAction, fetchTransactionPoolAction, sendTransactionAction, mineBlockAction })(Home);

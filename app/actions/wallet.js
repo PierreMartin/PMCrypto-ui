@@ -1,5 +1,5 @@
 import * as types from './../types';
-import { fetchAddressRequest, fetchBalanceRequest, fetchTransactionPoolRequest } from './../api';
+import { fetchAddressRequest, fetchBalanceRequest, fetchTransactionPoolRequest, sendTransactionRequest, mineBlockRequest } from './../api';
 
 const getMessage = res => res.response && res.response.data && res.response.data.messageServer;
 
@@ -84,5 +84,73 @@ export function fetchTransactionPoolAction() {
 			.catch((err) => {
 				if (err.message) return dispatch(fetchTransactionPoolFailure(getMessage(err)));
 			});
+	};
+}
+
+/************************************** Send transaction *************************************/
+export function sendTransactionSuccess(res) {
+	return {
+		type: types.SEND_TRANSACTION_SUCCESS,
+		messageServer: res.messageServer,
+		transactionSended: res.transactionSended
+	};
+}
+
+export function sendTransactionFailure(messageServer) {
+	return {
+		type: types.SEND_TRANSACTION_FAILURE,
+		messageServer
+	};
+}
+
+export function sendTransactionAction(address, amount) {
+	return (dispatch) => {
+		if (!address || !amount) return;
+
+		sendTransactionRequest(address, amount)
+			.then((res) => {
+				if (res.status === 200) {
+					dispatch(sendTransactionSuccess(res.data));
+					return fetchTransactionPoolRequest(); // add fetchAddressRequest() ??
+				}
+			})
+			.then((res) => { if (res.data) dispatch(fetchTransactionPoolSuccess(res.data)); })
+			.catch((err) => { if (err.message) return dispatch(sendTransactionFailure(getMessage(err))); });
+	};
+}
+
+/************************************** Mine Block *************************************/
+export function mineBlockSuccess(res) {
+	let amount = 0;
+	if (res.newBlock && res.newBlock.data[0] && res.newBlock.data[0].txOuts[0] && res.newBlock.data[0].txOuts[0].amount) {
+		amount = res.newBlock.data[0].txOuts[0].amount;
+	}
+
+	return {
+		type: types.MINE_BLOCK_SUCCESS,
+		messageServer: res.messageServer,
+		newBlock: res.newBlock,
+		amount
+	};
+}
+
+export function mineBlockFailure(messageServer) {
+	return {
+		type: types.MINE_BLOCK_FAILURE,
+		messageServer
+	};
+}
+
+export function mineBlockAction() {
+	return (dispatch) => {
+		mineBlockRequest()
+			.then((res) => {
+				if (res.status === 200) {
+					dispatch(mineBlockSuccess(res.data));
+					return fetchTransactionPoolRequest(); // add fetchAddressRequest() ??
+				}
+			})
+			.then((res) => { if (res.data) dispatch(fetchTransactionPoolSuccess(res.data)); })
+			.catch((err) => { if (err.message) return dispatch(mineBlockFailure(getMessage(err))); });
 	};
 }

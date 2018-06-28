@@ -19,13 +19,14 @@ export default (app) => {
 	// blocks routes
 	if (blocksController) {
 		app.get('/api/getblocks', blocksController.all);
-		app.post('/api/sendTransaction', blocksController.sendTx);
 	} else {
 		console.warn('blocks routes');
 	}
 
 	// wallet routes
 	if (walletController) {
+		app.post('/api/sendTransaction', walletController.sendTx);
+		app.post('/api/mineBlock', walletController.mineOne);
 		app.get('/api/getaddress', walletController.address);
 		app.get('/api/getbalance', walletController.balance);
 		app.get('/api/gettransactionpool', walletController.transactionPool);

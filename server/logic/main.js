@@ -65,6 +65,7 @@ const initHttpServer = (myHttpPort) => {
 		}
 	});
 
+	/*
 	// mine - include a transaction in the blockchain:
 	app.post('/mineBlock', (req, res) => {
 		const newBlock = generateNextBlock();
@@ -74,6 +75,7 @@ const initHttpServer = (myHttpPort) => {
 			res.send(newBlock);
 		}
 	});
+	*/
 
 	/*
 	app.get('/balance', (req, res) => {
