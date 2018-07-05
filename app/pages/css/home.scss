@@ -4,3 +4,21 @@
   text-align: center;
   color: $colorBombay !important;
 }
+
+.txContainer {
+  border: black 3px dashed;
+  padding: 5px;
+
+  .txHeader {
+    border: black 1px solid;
+    padding: 5px;
+    margin-bottom: 15px;
+  }
+
+  .txBody .left, .txBody .right {
+    display: inline-block;
+    width: 48%;
+    vertical-align: top;
+    padding: 5px;
+  }
+}

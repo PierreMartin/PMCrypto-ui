@@ -4,10 +4,10 @@ import { connect } from 'react-redux';
 import { fetchAddressAction, fetchBalanceAction, fetchTransactionPoolAction, sendTransactionAction, mineBlockAction } from '../actions/wallet';
 import { Button, Container, Header, Segment, Icon, Form } from 'semantic-ui-react';
 import LayoutPage from '../components/layouts/LayoutPage/LayoutPage';
-// import classNames from 'classnames/bind';
-// import styles from './css/home.scss';
+import classNames from 'classnames/bind';
+import styles from './css/home.scss';
 
-// const cx = classNames.bind(styles);
+const cx = classNames.bind(styles);
 
 class Home extends Component {
 	constructor(props) {
@@ -95,40 +95,39 @@ class Home extends Component {
 					<Container text>
 						<Header as="h4"><Icon name="external" /><Header.Content>TRANSACTION POOL</Header.Content></Header>
 
-						<table className="table">
-							<thead>
-								<tr>
-									<th colSpan="2">#ID</th>
-								</tr>
-							</thead>
-							<tbody>
-							{transactionPool.map((tx, key) => {
-								return (
-									<tr key={key}>
-										<td>
-											<b>ID: {tx.id}</b>
-										</td>
+						{transactionPool.map((tx, key) => {
+							return (
+								<div className={cx('txContainer')} key={key}>
+									<div className={cx('txHeader')}>
+										<div>Transaction Id : { tx.id }</div>
+									</div>
 
-										{tx.txIns.map((txIn, key2) => {
-											return (
-												<tr key={key2}>
-													<td>{txIn.signature}</td>
-												</tr>
-											);
-										})}
-
-										{tx.txOuts.map((txOut, key3) => {
-											return (
-												<tr key={key3}>
-													<td>{txOut.address}</td>
-												</tr>
-											);
-										})}
-									</tr>
-								);
-							})}
-							</tbody>
-						</table>
+									<div className={cx('txBody')}>
+										<div className={cx('left')}>
+											<strong>Signature: </strong>
+											{tx.txIns.map((txIn, key2) => {
+												return (
+													<div key={key2} style={{wordWrap: 'break-word'}}>
+														<div>{txIn.signature === '' ? 'coinbase' : txIn.txOutId + ' ' + txIn.txOutIndex }</div>
+													</div>
+												);
+											})}
+										</div>
+										<div className={cx('right')}>
+											{tx.txOuts.map((txOut, key3) => {
+												return (
+													<div key={key3} style={{wordWrap: 'break-word'}}>
+														<strong>Address: </strong><div>{txOut.address}</div>
+														<strong>Amount: </strong><div>{ txOut.amount}</div>
+														<hr />
+													</div>
+												);
+											})}
+										</div>
+									</div>
+								</div>
+							);
+						})}
 
 					</Container>
 				</Segment>
@@ -136,7 +135,7 @@ class Home extends Component {
 				<Segment vertical>
 					<Container text>
 						<Header as="h4"><Icon name="retweet" /><Header.Content>MINE BLOCK (test)</Header.Content></Header>
-						<Button primary onClick={this.mineBlockClick}>Click to mine block<Icon name="right arrow" /></Button>
+						<Button onClick={this.mineBlockClick}>Click to mine block</Button>
 					</Container>
 				</Segment>
 
